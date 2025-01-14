@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>शिकायत फॉर्म</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>शिकायत फॉर्म</h1>
+        <form id="complaintForm">
+            <label for="name">पूरा नाम:</label>
+            <input type="text" id="name" name="name" required placeholder="अपना नाम दर्ज करें">
+            
+            <label for="village">गांव/शहर का नाम:</label>
+            <input type="text" id="village" name="village" required placeholder="गांव या शहर का नाम दर्ज करें">
+            
+            <label for="contact">संपर्क नंबर:</label>
+            <input type="tel" id="contact" name="contact" required placeholder="अपना मोबाइल नंबर दर्ज करें">
+            
+            <label for="complaintType">शिकायत का प्रकार:</label>
+            <select id="complaintType" name="complaintType" required>
+                <option value="" disabled selected>चुनें...</option>
+                <option value="electricity">बिजली समस्या</option>
+                <option value="water">पानी की समस्या</option>
+                <option value="road">सड़क की समस्या</option>
+                <option value="health">स्वास्थ्य समस्या</option>
+                <option value="police">पुलिस/कानून व्यवस्था</option>
+                <option value="other">अन्य</option>
+            </select>
+            
+            <label for="description">शिकायत का विवरण:</label>
+            <textarea id="description" name="description" rows="5" required placeholder="अपनी समस्या का विवरण लिखें"></textarea>
+            
+            <button type="submit">सबमिट करें</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
