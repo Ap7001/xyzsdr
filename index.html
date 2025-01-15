@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>शिकायत फॉर्म</h1>
-        <form id="complaintForm" name="complaintForm" method="POST" data-netlify="true" action="https://script.google.com/macros/s/AKfycbwX3I9rj_0RdRkObu9ZnyXGjc__gK1ZyVyGbAajmio7h_VK9VevVbW828OIboILRgc-dQ/exec">
+        <form id="complaintForm" name="complaintForm" method="POST" enctype="multipart/form-data" action="https://script.google.com/macros/s/AKfycbzScMuQ6-RtcSIHhmh-Mw5eeF-2baEKxlDC7uKz4uJI77yO_UgxRP015Q8uN_YF7r5t/exec">
             <label for="name">पूरा नाम:</label>
             <input type="text" id="name" name="name" required placeholder="अपना नाम दर्ज करें">
             
@@ -33,14 +33,14 @@
             <label for="description">शिकायत का विवरण:</label>
             <textarea id="description" name="description" rows="5" required placeholder="अपनी समस्या का विवरण लिखें"></textarea>
             
-            <!-- Date Field -->
-            <label for="date">तारीख:</label>
-            <input type="date" id="date" name="date" required>
-
             <!-- File Upload Field -->
             <label for="fileUpload">फाइल अपलोड करें (JPG या PDF):</label>
             <input type="file" id="fileUpload" name="fileUpload" accept=".jpg,.jpeg,.png,.pdf" required>
             
+            <!-- Date Field -->
+            <label for="date">तारीख:</label>
+            <input type="date" id="date" name="date" required>
+
             <button type="submit">सबमिट करें</button>
         </form>
     </div>
