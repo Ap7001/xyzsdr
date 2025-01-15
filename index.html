@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>शिकायत फॉर्म</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1>शिकायत फॉर्म</h1>
-        <form id="complaintForm" name="complaintForm" method="POST" enctype="multipart/form-data" data-netlify="true" action="https://script.google.com/macros/s/AKfycbw40dmtu_mensrf2b5zmfCaAYUnVFFW0GtW4xVU0OxeqreU_PbsWJwSg-AwCQYfq75BGA/exec">
+        <form id="complaintForm" name="complaintForm" method="POST" enctype="multipart/form-data" data-netlify="true" action="https://script.google.com/macros/s/AKfycbx4hFtCh4UXDxEm4nD5H6pVagnOWZuLmyjPdZL9w7OziipzQPSHrz71_DMyDv3jJqXShA/exec" onsubmit="convertFileToBase64(event)">
             <label for="name">पूरा नाम:</label>
             <input type="text" id="name" name="name" required placeholder="अपना नाम दर्ज करें">
             
@@ -44,11 +43,37 @@
             <button type="submit">सबमिट करें</button>
         </form>
     </div>
-<script>
-        // फॉर्म के सबमिशन को कस्टमाइज़ कर सकते हैं (Optional)
-        document.getElementById("complaintForm").addEventListener("submit", function (e) {
-            alert("आपकी शिकायत सबमिट हो गई है। धन्यवाद!");
-        });
+
+    <script>
+        function convertFileToBase64(event) {
+            event.preventDefault();  // Default form submission रोकें
+            
+            var form = document.getElementById('complaintForm');
+            var fileInput = document.getElementById('fileUpload');
+            var file = fileInput.files[0];
+
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var base64File = reader.result.split(',')[1];  // Only the base64 string
+                    var formData = new FormData(form);
+                    formData.append("fileUpload", base64File);
+                    formData.append("fileUploadName", file.name);
+
+                    // अब form data भेजने का काम करें
+                    fetch(form.action, {
+                        method: "POST",
+                        body: formData
+                    }).then(response => response.text())
+                      .then(data => {
+                          alert("आपकी शिकायत सबमिट हो गई है। धन्यवाद!");
+                      }).catch(error => {
+                          alert("कुछ समस्या आई है: " + error.message);
+                      });
+                };
+                reader.readAsDataURL(file);  // File को Base64 में बदलें
+            }
+        }
     </script>
 </body>
 </html>
