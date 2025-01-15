@@ -52,38 +52,64 @@
     </div>
 
     <script>
-        function convertFileToBase64(event) {
-            event.preventDefault();  // Default form submission रोकें
-            
-            var form = document.getElementById('complaintForm');
-            var fileInput = document.getElementById('fileUpload');
-            var file = fileInput.files[0];
+        var isSubmitting = false;  // Flag to prevent multiple submissions
 
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function() {
-                    var base64File = reader.result.split(',')[1];  // Only the base64 string
-                    var formData = new FormData(form);
-                    formData.append("fileUpload", base64File);
-                    formData.append("fileUploadName", file.name);
+function convertFileToBase64(event) {
+    event.preventDefault();  // Default form submission रोकें
 
-                    // अब form data भेजने का काम करें
-                    fetch(form.action, {
-                        method: "POST",
-                        body: formData
-                    }).then(response => response.text())
-                      .then(data => {
-                          alert("आपकी शिकायत सबमिट हो गई है। धन्यवाद!");
-                      }).catch(error => {
-                          alert("कुछ समस्या आई है: " + error.message);
-                      });
-                };
-                reader.readAsDataURL(file);  // File को Base64 में बदलें
-            }
+    // Prevent submitting if the form is already being submitted
+    if (isSubmitting) {
+        alert("आप पहले ही सबमिट कर चुके हैं। कृपया थोड़ी देर बाद प्रयास करें।");
+        return;  // Don't proceed if already submitting
+    }
+
+    isSubmitting = true;  // Set the flag to prevent multiple submissions
+
+    var form = document.getElementById('complaintForm');
+    var fileInput = document.getElementById('fileUpload');
+    var file = fileInput.files[0];
+
+    // फाइल साइज चेक करें (10 KB से कम या 2 MB से ज्यादा नहीं होना चाहिए)
+    var minFileSize = 10240; // 10 KB
+    var maxFileSize = 2097152; // 2 MB
+
+    if (file) {
+        if (file.size < minFileSize || file.size > maxFileSize) {
+            alert("कृपया ध्यान दें: फाइल का आकार 10 KB से कम और 2 MB से ज्यादा नहीं होना चाहिए");
+            isSubmitting = false;  // Reset flag
+            return false;  // फॉर्म सबमिट नहीं होगा
         }
 
-        // तारीख का मान सेट करें (आज की तारीख)
-        document.getElementById('date').value = new Date().toISOString().split('T')[0];
+        var reader = new FileReader();
+        reader.onload = function() {
+            var base64File = reader.result.split(',')[1];  // Only the base64 string
+            var formData = new FormData(form);
+            formData.append("fileUpload", base64File);
+            formData.append("fileUploadName", file.name);
+
+            // अब form data भेजने का काम करें
+            fetch(form.action, {
+                method: "POST",
+                body: formData
+            }).then(response => response.text())
+              .then(data => {
+                  alert("आपकी शिकायत सबमिट हो गई है। धन्यवाद!");
+                  
+                  // Form reset (clear fields)
+                  form.reset();  // यह फॉर्म को रीसेट कर देगा
+
+                  isSubmitting = false;  // Reset the flag after successful submission
+              }).catch(error => {
+                  alert("कुछ समस्या आई है: " + error.message);
+                  isSubmitting = false;  // Reset the flag in case of error
+              });
+        };
+        reader.readAsDataURL(file);  // File को Base64 में बदलें
+    }
+}
+
+// तारीख का मान सेट करें (आज की तारीख)
+document.getElementById('date').value = new Date().toISOString().split('T')[0];
     </script>
 </body>
 </html>
