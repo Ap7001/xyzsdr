@@ -44,7 +44,7 @@
             
             <!-- Date field -->
             <label for="date">तारीख:</label>
-            <input type="date" id="date" name="date" required max="" readonly>
+            <input type="date" id="date" name="date" required readonly>
             
             <button type="submit">सबमिट करें</button>
         </form>
@@ -92,8 +92,8 @@
             form.submit();
         }
 
-        // तारीख का मान सेट करें
-        document.getElementById('date').setAttribute('max', new Date().toISOString().split('T')[0]);
+        // तारीख का मान सेट करें (आज की तारीख)
+        document.getElementById('date').value = new Date().toISOString().split('T')[0];
     </script>
 </body>
 </html>
