@@ -9,9 +9,10 @@
 <body>
     <div class="container">
         <h1>शिकायत फॉर्म</h1>
-        <form id="complaintForm" name="complaintForm" method="POST" enctype="multipart/form-data" data-netlify="true" action="https://script.google.com/macros/s/AKfycbxTlAHkmCews52xAxuXUAu6-DF03PjTSKwu8irdwnw3FFF-CkvCVNz5LHmLmpWTO2kR-Q/exec" onsubmit="return validateForm(event)">
+        <form id="complaintForm" name="complaintForm" method="POST" enctype="multipart/form-data" data-netlify="true" action="https://script.google.com/macros/s/AKfycbz3Gw_jQHz08nDbsS_Huowbe6Ibq_sUeVt-5NNgciabZPagLyOQ1luIcWfyjwcCuXIM/exec" onsubmit="return validateForm(event)">
             <label for="name">पूरा नाम:</label>
             <input type="text" id="name" name="name" required placeholder="अपना नाम दर्ज करें">
+            
             <label for="fatherName">पिता का नाम:</label>
             <input type="text" id="fatherName" name="fatherName" required placeholder="पिता का नाम दर्ज करें">
             
@@ -38,11 +39,9 @@
             <label for="description">शिकायत का विवरण:</label>
             <textarea id="description" name="description" rows="5" required placeholder="अपनी समस्या का विवरण लिखें (300 शब्दों तक)" maxlength="1500"></textarea>
             
-            <!-- File upload field -->
             <label for="fileUpload">फाइल अपलोड करें (JPG, PDF):</label>
             <input type="file" id="fileUpload" name="fileUpload" accept=".jpg, .pdf" required>
             
-            <!-- Date field -->
             <label for="date">तारीख:</label>
             <input type="date" id="date" name="date" required readonly>
             
@@ -52,8 +51,7 @@
 
     <script>
         function validateForm(event) {
-            // फॉर्म का डिफॉल्ट सबमिशन रोकें
-            event.preventDefault();
+            event.preventDefault(); // फॉर्म का डिफॉल्ट सबमिशन रोकें
 
             var form = document.getElementById('complaintForm');
             var contact = document.getElementById('contact').value;
