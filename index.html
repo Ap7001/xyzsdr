@@ -9,13 +9,7 @@
 <body>
     <div class="container">
         <h1>शिकायत फॉर्म</h1>
-        <form
-            id="complaintForm"
-            name="complaintForm" 
-            method="POST" 
-            enctype="application/x-www-form-urlencoded" 
-            action="https://script.google.com/macros/s/AKfycbxAkctUFCVVLT4p0mHh68E7xoguM612aK6kqM9EbTY6D2JKoPHljXbrhbBJb6m5JcMEEw/exec">
-            
+        <form id="complaintForm" name="complaintForm" method="POST" data-netlify="true" action="YOUR_SCRIPT_URL">
             <label for="name">पूरा नाम:</label>
             <input type="text" id="name" name="name" required placeholder="अपना नाम दर्ज करें">
             
@@ -39,14 +33,18 @@
             <label for="description">शिकायत का विवरण:</label>
             <textarea id="description" name="description" rows="5" required placeholder="अपनी समस्या का विवरण लिखें"></textarea>
             
+            <!-- Date Field -->
+            <label for="date">तारीख:</label>
+            <input type="date" id="date" name="date" required>
+
+            <!-- File Upload Field -->
+            <label for="fileUpload">फाइल अपलोड करें (JPG या PDF):</label>
+            <input type="file" id="fileUpload" name="fileUpload" accept=".jpg,.jpeg,.png,.pdf" required>
+            
             <button type="submit">सबमिट करें</button>
         </form>
     </div>
-<script>
-        // फॉर्म के सबमिशन को कस्टमाइज़ कर सकते हैं (Optional)
-        document.getElementById("complaintForm").addEventListener("submit", function (e) {
-            alert("आपकी शिकायत सबमिट हो गई है। धन्यवाद!");
-        });
-    </script>
+
+    <script src="script.js"></script>
 </body>
 </html>
