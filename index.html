@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>शिकायत फॉर्म</h1>
-        <form id="complaintForm" name="complaintForm" method="POST" enctype="multipart/form-data" data-netlify="true" action="https://script.google.com/macros/s/AKfycbz3Gw_jQHz08nDbsS_Huowbe6Ibq_sUeVt-5NNgciabZPagLyOQ1luIcWfyjwcCuXIM/exec" onsubmit="return validateForm(event)">
+        <form id="complaintForm" name="complaintForm" method="POST" enctype="multipart/form-data" data-netlify="true" action="https://script.google.com/macros/s/AKfycby8G1gxPHTKMEy-HHoZsIImF62Q5C235_NcokPzGH9I3UCm2VRhLB1EmyiEY71crL-bCg/exec" onsubmit="convertFileToBase64(event)">
             <label for="name">पूरा नाम:</label>
             <input type="text" id="name" name="name" required placeholder="अपना नाम दर्ज करें">
             
@@ -23,7 +23,7 @@
             <input type="text" id="village" name="village" required placeholder="गांव या शहर का नाम दर्ज करें">
             
             <label for="contact">संपर्क नंबर:</label>
-            <input type="tel" id="contact" name="contact" required pattern="\d{10}" placeholder="10 डिजिट का मोबाइल नंबर दर्ज करें">
+            <input type="tel" id="contact" name="contact" required placeholder="अपना मोबाइल नंबर दर्ज करें">
             
             <label for="complaintType">शिकायत का प्रकार:</label>
             <select id="complaintType" name="complaintType" required>
@@ -37,11 +37,13 @@
             </select>
             
             <label for="description">शिकायत का विवरण:</label>
-            <textarea id="description" name="description" rows="5" required placeholder="अपनी समस्या का विवरण लिखें (300 शब्दों तक)" maxlength="1500"></textarea>
+            <textarea id="description" name="description" rows="5" required placeholder="अपनी समस्या का विवरण लिखें"></textarea>
             
+            <!-- File upload field -->
             <label for="fileUpload">फाइल अपलोड करें (JPG, PDF):</label>
             <input type="file" id="fileUpload" name="fileUpload" accept=".jpg, .pdf" required>
             
+            <!-- Date field -->
             <label for="date">तारीख:</label>
             <input type="date" id="date" name="date" required readonly>
             
@@ -50,44 +52,34 @@
     </div>
 
     <script>
-        function validateForm(event) {
-            event.preventDefault(); // फॉर्म का डिफॉल्ट सबमिशन रोकें
-
+        function convertFileToBase64(event) {
+            event.preventDefault();  // Default form submission रोकें
+            
             var form = document.getElementById('complaintForm');
-            var contact = document.getElementById('contact').value;
-            var description = document.getElementById('description').value;
             var fileInput = document.getElementById('fileUpload');
             var file = fileInput.files[0];
-            var currentDate = new Date().toISOString().split('T')[0];
-            var dateField = document.getElementById('date');
 
-            // 1. मोबाइल नंबर वैलिडेशन (10 डिजिट)
-            if (!/^\d{10}$/.test(contact)) {
-                alert("कृपया 10 डिजिट का मोबाइल नंबर दर्ज करें");
-                return false;
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var base64File = reader.result.split(',')[1];  // Only the base64 string
+                    var formData = new FormData(form);
+                    formData.append("fileUpload", base64File);
+                    formData.append("fileUploadName", file.name);
+
+                    // अब form data भेजने का काम करें
+                    fetch(form.action, {
+                        method: "POST",
+                        body: formData
+                    }).then(response => response.text())
+                      .then(data => {
+                          alert("आपकी शिकायत सबमिट हो गई है। धन्यवाद!");
+                      }).catch(error => {
+                          alert("कुछ समस्या आई है: " + error.message);
+                      });
+                };
+                reader.readAsDataURL(file);  // File को Base64 में बदलें
             }
-
-            // 2. डिस्क्रिप्शन में 300 शब्द
-            var wordCount = description.trim().split(/\s+/).length;
-            if (wordCount > 300) {
-                alert("कृपया डिस्क्रिप्शन 300 शब्दों से अधिक ना हो");
-                return false;
-            }
-
-            // 3. फाइल का साइज 10KB से 2MB के बीच होना चाहिए
-            if (file && (file.size < 10240 || file.size > 2097152)) {
-                alert("फाइल का आकार 10KB से 2MB के बीच होना चाहिए");
-                return false;
-            }
-
-            // 4. डेट चेक करें (केवल आज की तारीख)
-            if (dateField.value !== currentDate) {
-                alert("तारीख केवल आज की हो सकती है");
-                return false;
-            }
-
-            // फॉर्म को सबमिट करें
-            form.submit();
         }
 
         // तारीख का मान सेट करें (आज की तारीख)
