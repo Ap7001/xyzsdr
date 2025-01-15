@@ -13,8 +13,9 @@
             id="complaintForm"
             name="complaintForm" 
             method="POST" 
-            data-netlify="true" 
-            action="https://script.google.com/macros/s/AKfycbxSyzuR5kvShCAy7jbiYc9D2BUfj0Z76ulZYwO2P-Y2IRVGlB7kK7Bg-MXYq5Dpkn41SQ/exec">
+            enctype="application/x-www-form-urlencoded" 
+            action="https://script.google.com/macros/s/AKfycbxqQr5vfDBXHvESC1QjjmfDgO6dbWFs9nSsJfjusB6ZmWHywHPmJwh-bhDTXZfLcMc0hg/exec">
+            
             <label for="name">पूरा नाम:</label>
             <input type="text" id="name" name="name" required placeholder="अपना नाम दर्ज करें">
             
@@ -42,6 +43,11 @@
         </form>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // फॉर्म के सबमिशन को कस्टमाइज़ कर सकते हैं (Optional)
+        document.getElementById("complaintForm").addEventListener("submit", function (e) {
+            alert("आपकी शिकायत सबमिट हो गई है। धन्यवाद!");
+        });
+    </script>
 </body>
 </html>
